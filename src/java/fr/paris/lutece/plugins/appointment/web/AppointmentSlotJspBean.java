@@ -496,7 +496,7 @@ public class AppointmentSlotJspBean extends AbstractAppointmentFormAndSlotJspBea
                     // Error, the time slot can't be changed
                     addError( MESSAGE_ERROR_APPOINTMENT_ON_SLOT, getLocale( ) );
                     addError( listAppointmentsImpacted.size( ) + " rendez-vous impacté(s)" );
-                    addError( "dont un le " + SlotService.findSlotById( listAppointmentsImpacted.get( 0 ).getIdSlot( ) ).getStartingDateTime( ) );
+ //                   addError( "dont un le " + SlotService.findSlotById( listAppointmentsImpacted.get( 0 ).getIdSlot( ) ).getStartingDateTime( ) );
                     Map<String, String> additionalParameters = new HashMap<>( );
                     additionalParameters.put( PARAMETER_ID_FORM, strIdForm );
                     additionalParameters.put( PARAMETER_ID_WEEK_DEFINITION, strIdWeekDefinition );
@@ -846,7 +846,7 @@ public class AppointmentSlotJspBean extends AbstractAppointmentFormAndSlotJspBea
         HashSet<Integer> setSlotsImpactedWithAppointments = new HashSet<>( );
         for ( Appointment appointment : listAppointmentsImpacted )
         {
-            setSlotsImpactedWithAppointments.add( appointment.getIdSlot( ) );
+//            setSlotsImpactedWithAppointments.add( appointment.getIdSlot( ) );
         }
         List<Slot> listSlotsImpactedWithoutAppointments = listSlotsImpacted.stream( )
                 .filter( slot -> !setSlotsImpactedWithAppointments.contains( slot.getIdSlot( ) ) ).collect( Collectors.toList( ) );

@@ -120,7 +120,6 @@ CREATE TABLE IF NOT EXISTS appointment_appointment (
   date_appointment_create TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   admin_access_code_create VARCHAR(100) ,
   id_user INT NOT NULL,
-  id_slot INT NOT NULL,
   PRIMARY KEY (id_appointment, id_user, id_slot),  
   CONSTRAINT fk_appointment_appointment_appointment_user
     FOREIGN KEY (id_user)
@@ -140,6 +139,25 @@ CREATE INDEX fk_appointment_appointment_appointment_slot_idx ON appointment_appo
 
 CREATE INDEX reference_idx ON appointment_appointment (reference ASC);
 
+
+-- -----------------------------------------------------
+-- Table appointment_appointment_slot
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS appointment_appointment_slot (
+
+	id_appointment INT NOT NULL, 
+	id_slot INT NOT NULL,
+	nb_places INT NOT NULL,
+	PRIMARY KEY (id_appointment, id_slot ),
+	CONSTRAINT fk_appointment_appointment_slot_appointment
+    FOREIGN KEY (id_appointment)
+    REFERENCES appointment_appointment (id_appointment),
+    CONSTRAINT fk_appointment_appointment_slot_slot
+    FOREIGN KEY (id_slot)
+    REFERENCES appointment_slot (id_slot)
+
+);
 -- -----------------------------------------------------
 -- Table appointment_appointment_response
 -- -----------------------------------------------------

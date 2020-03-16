@@ -45,6 +45,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -196,7 +198,7 @@ public final class AppointmentUtilities
      */
     public static void checkDateOfTheAppointmentIsNotBeforeNow( AppointmentDTO appointmentDTO, Locale locale, List<GenericAttributeError> listFormErrors )
     {
-        if ( appointmentDTO.getSlot( ).getStartingDateTime( ).toLocalDate( ).isBefore( LocalDate.now( ) ) )
+        if ( getStartingDateTime( appointmentDTO ).toLocalDate( ).isBefore( LocalDate.now( ) ) )
         {
             GenericAttributeError genAttError = new GenericAttributeError( );
             genAttError.setErrorMessage( I18nService.getLocalizedString( ERROR_MESSAGE_DATE_APPOINTMENT, locale ) );
@@ -233,7 +235,7 @@ public final class AppointmentUtilities
                             .toLocalDate( );
                     // Check the number of days between this appointment and
                     // the last appointment the user has taken
-                    LocalDate dateOfTheAppointment = appointmentDTO.getSlot( ).getStartingDateTime( ).toLocalDate( );
+                    LocalDate dateOfTheAppointment = getStartingDateTime( appointmentDTO ).toLocalDate( );
                     if ( Math.abs( dateOfTheLastAppointment.until( dateOfTheAppointment, ChronoUnit.DAYS ) ) <= nbDaysBetweenTwoAppointments )
                     {
                         bCheckPassed = false;
@@ -351,7 +353,11 @@ public final class AppointmentUtilities
                     {
                         if ( !appointment.getIsCancelled( ) )
                         {
-                            listSlots.add( SlotService.findSlotById( appointment.getIdSlot( ) ) );
+                        	for( Integer idSlot: appointment.getIdSlot()) {
+                            
+                        		listSlots.add( SlotService.findSlotById( idSlot ) );
+                        	
+                        	}
                         }
                     }
 
@@ -387,7 +393,7 @@ public final class AppointmentUtilities
                 if ( CollectionUtils.isNotEmpty( listSlots ) )
                 {
                     // Get the date of the future appointment
-                    LocalDate dateOfTheAppointment = appointmentDTO.getSlot( ).getStartingDateTime( ).toLocalDate( );
+                    LocalDate dateOfTheAppointment = getStartingDateTime( appointmentDTO ).toLocalDate( );
                     // Min starting date of the period
                     LocalDate minStartingDateOfThePeriod = dateOfTheAppointment.minusDays( nbDaysForMaxAppointmentsPerUser );
                     // Max ending date of the period
@@ -517,7 +523,7 @@ public final class AppointmentUtilities
      */
     public static void fillAppointmentDTO( AppointmentDTO appointmentDTO, int nbBookedSeats, String strEmail, String strFirstName, String strLastName )
     {
-        appointmentDTO.setDateOfTheAppointment( appointmentDTO.getSlot( ).getDate( ).format( Utilities.getFormatter( ) ) );
+        appointmentDTO.setDateOfTheAppointment( appointmentDTO.getSlot( ).get( 0 ).getDate( ).format( Utilities.getFormatter( ) ) );
         appointmentDTO.setNbBookedSeats( nbBookedSeats );
         appointmentDTO.setEmail( strEmail );
         appointmentDTO.setFirstName( strFirstName );
@@ -993,12 +999,16 @@ public final class AppointmentUtilities
             boolean bAppointmentOnOpenDays = false;
             for ( Appointment appointment : listAppointment )
             {
-                Slot tempSlot = SlotService.findSlotById( appointment.getIdSlot( ) );
-                if ( previousOpenDays.contains( tempSlot.getStartingDateTime( ).getDayOfWeek( ) ) )
-                {
-                    bAppointmentOnOpenDays = true;
-                    break;
-                }
+            	for(Integer idSlot :appointment.getIdSlot()) {
+            		
+	                Slot tempSlot = SlotService.findSlotById( idSlot );
+	                if ( previousOpenDays.contains( tempSlot.getStartingDateTime( ).getDayOfWeek( ) ) )
+	                {
+	                    bAppointmentOnOpenDays = true;
+	                    break;
+	                }
+            	}
+            	if( bAppointmentOnOpenDays ) break;
             }
             bNoAppointmentsImpacted = !bAppointmentOnOpenDays;
         }
@@ -1130,5 +1140,29 @@ public final class AppointmentUtilities
             }
         }
         return listSlotsImpacted;
+    }
+    
+    public static LocalDateTime getStartingDateTime( Appointment appointmentDTO ) {
+    	
+    	List<Slot> listSlot= appointmentDTO.getSlot();
+    	if (listSlot != null && !listSlot.isEmpty( )) {
+    		
+    		Slot slot= listSlot.stream().min(Comparator.comparing(Slot::getStartingDateTime )).orElse(listSlot.get(0));
+    		return slot.getStartingDateTime( );
+    	}
+    	
+    	return null;
+    }
+    
+   public static LocalDateTime getEndingDateTime( Appointment appointmentDTO ) {
+    	
+    	List<Slot> listSlot= appointmentDTO.getSlot();
+    	if (listSlot != null && !listSlot.isEmpty( )) {
+    		
+    		Slot slot= listSlot.stream().max(Comparator.comparing(Slot::getStartingDateTime )).orElse(listSlot.get(0));
+    		return slot.getStartingDateTime( );
+    	}
+    	
+    	return null;
     }
 }

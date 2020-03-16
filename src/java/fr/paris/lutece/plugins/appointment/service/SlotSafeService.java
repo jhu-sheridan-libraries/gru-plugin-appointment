@@ -189,6 +189,7 @@ public final class SlotSafeService {
     	boolean bIsUpdate= false;
     	 Slot slot = appointmentDTO.getSlot( );
     	 Object lock = getLockOnSlot( slot.getIdSlot() );
+    	 
 		 synchronized (lock) {
 	    	 //avoid duplicate appointment
 	         if( appointmentDTO.getIsSaved( ) ){
