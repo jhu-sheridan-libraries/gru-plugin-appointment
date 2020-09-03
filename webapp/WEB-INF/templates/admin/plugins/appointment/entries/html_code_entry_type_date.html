@@ -1,3 +1,10 @@
+<link rel="stylesheet" href="css/admin/plugins/appointment/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" />
+
+<script src="js/plugins/appointment/moment-with-locales.min.js"></script>
+<script src="js/plugins/appointment/tempusdominus-bootstrap-4.min.js"></script>
+<script src="js/jquery/jquery-ui.min.js"></script>
+<script src="js/bootstrap-filestyle.min.js"></script>
+
 <#if field.valueTypeDate?exists>
 	<#assign value = field.valueTypeDate />
 <#else>
@@ -16,14 +23,16 @@
 	</#list>
 </#if>
 
+
 <@formGroup labelFor='attribute${entry.idEntry}' labelKey='${entry.title}' helpKey='${entry.helpMessage!}' class=class mandatory=entry.mandatory>
-	<#list entry.fields as field>
-		<@inputGroup>
-			<@inputGroupItem type='addon'>
-				<@icon style='calendar' />
-			</@inputGroupItem>
-			<@input type='text' name='attribute${entry.idEntry}' id='attribute${entry.idEntry}' value=value class='${entry.CSSClass!}' />
-		</@inputGroup>
+    <#list entry.fields as field>
+        <@inputGroup class= "date" id="attribute${entry.idEntry}" params='data-target-input="nearest"'>
+	    <@inputGroupItem pos="append" type="text" params='data-target="#attribute${entry.idEntry}" data-toggle="datetimepicker"'>
+                <@icon class="fa fa-calendar" />
+            </@inputGroupItem>
+	    <@input type='text' name='attribute${entry.idEntry}' value=value class='datetimepicker-input ${entry.CSSClass!}' params='data-target="#attribute${entry.idEntry}"' />
+	</@inputGroup>
+
 		<#if list_responses??>
 			<#list list_responses as response>
 				<#if response.entry.idEntry == entry.idEntry && response.entry.error?? && response.entry.error.isDisplayableError>
@@ -34,8 +43,22 @@
 				</#if>
 			</#list>
 		</#if>
-	</#list>
+    </#list>
 </@formGroup>
-<script src="js/jquery/plugins/ui/jquery-ui-1.9.2.custom.min.js"></script>
-<script src="js/jquery/plugins/ui/ui.datepicker-fr.js"></script>
-<@getDatePickerBootstrap idField="attribute${entry.idEntry}" language=locale />
+
+
+<script type="text/javascript">	
+  $(function () {
+      $('#attribute${entry.idEntry}').datetimepicker({
+          locale: '${language}',
+	  format: 'L',
+          keepOpen: false,
+	  allowInputToggle: true,
+          buttons: {
+              showToday: true,
+              showClear: true,
+              showClose: true
+          }
+      });
+  });
+</script>

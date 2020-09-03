@@ -1,3 +1,10 @@
+<link rel="stylesheet" href="css/admin/plugins/appointment/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" />
+
+<script src="js/plugins/appointment/moment-with-locales.min.js"></script>
+<script src="js/plugins/appointment/tempusdominus-bootstrap-4.min.js"></script>
+<script src="js/jquery/jquery-ui.min.js"></script>
+<script src="js/bootstrap-filestyle.min.js"></script>
+
 <#if list_responses??>
 	<#list list_responses as response>
 		<#if response.entry.idEntry == entry.idEntry && response.entry.error?? && response.entry.error.isDisplayableError>
@@ -42,6 +49,19 @@
 		</#if>
 	</div>
 </div>
-<script src="js/jquery/plugins/ui/jquery-ui-1.9.2.custom.min.js"></script>
-<script src="js/jquery/plugins/ui/ui.datepicker-fr.js"></script>
-<@getDatePickerBootstrap idField="attribute${entry.idEntry}" language=locale />
+
+<script type="text/javascript">	
+  $(function () {
+      $('#attribute${entry.idEntry}').datetimepicker({
+          locale: '${language}',
+	  format: 'L',
+          keepOpen: false,
+	  allowInputToggle: true,
+          buttons: {
+              showToday: true,
+              showClear: true,
+              showClose: true
+          }
+      });
+  });
+</script>
