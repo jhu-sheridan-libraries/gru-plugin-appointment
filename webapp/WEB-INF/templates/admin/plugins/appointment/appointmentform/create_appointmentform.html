@@ -26,7 +26,7 @@
 					</@formGroup>
 
 					<@formGroup labelFor='time_start' labelKey='#i18n{appointment.createAppointmentForm.labelTimeStart}' helpKey='#i18n{appointment.createAppointmentForm.labelTimeStart.help}' mandatory=true>
-					  <@inputGroup class= "date" id="time_start" params='data-target-input="nearest"'>
+					  <@inputGroup class="date" id="time_start" params='data-target-input="nearest"'>
 					    <@input type="text" class="datetimepicker-input"  name='time_start'  value=appointmentform.timeStart!'' params='data-target="#time_start"' />
 					    <@inputGroupItem pos="append" type="text" params='data-target="#time_start" data-toggle="datetimepicker"'>
 					      <@icon class="fa fa-clock" />
@@ -35,7 +35,7 @@
 					</@formGroup>
 
 					<@formGroup labelFor='time_end' labelKey='#i18n{appointment.createAppointmentForm.labelTimeEnd}' helpKey='#i18n{appointment.createAppointmentForm.labelTimeEnd.help}' mandatory=true>
-					  <@inputGroup class= "date" id="time_end" params='data-target-input="nearest"'>
+					  <@inputGroup class="date" id="time_end" params='data-target-input="nearest"'>
 					    <@input type="text" class="datetimepicker-input"  name='time_end'  value=appointmentform.timeEnd!'' params='data-target="#time_end"' />
 					    <@inputGroupItem pos="append" type="text" params='data-target="#time_end" data-toggle="datetimepicker"'>
 					      <@icon class="fa fa-clock" />
@@ -52,7 +52,7 @@
 					</@formGroup>
 
 					<@formGroup labelFor='date_start_validity' labelKey='#i18n{appointment.createAppointmentForm.labelDateStartValidity}' helpKey='#i18n{appointment.createAppointmentForm.labelDateStartValidity.help}'>
-					  <@inputGroup class= "date" id="date_start_validity" params='data-target-input="nearest"'>
+					  <@inputGroup class="date" id="date_start_validity" params='data-target-input="nearest"'>
 					    <@input type="text" class="datetimepicker-input"  name='date_start_validity'  value=appointmentform.dateStartValidity!'' params='data-target="#date_start_validity"' />
 					    <@inputGroupItem pos="append" type="text" params='data-target="#date_start_validity" data-toggle="datetimepicker"'>
 					      <@icon class="fa fa-calendar" />
@@ -61,7 +61,7 @@
 					</@formGroup>
 
 					<@formGroup labelFor='date_end_validity' labelKey='#i18n{appointment.createAppointmentForm.labelDateEndValidity}' helpKey='#i18n{appointment.createAppointmentForm.labelDateEndValidity.help}'>
-					  <@inputGroup class= "date" id="date_end_validity" params='data-target-input="nearest"'>
+					  <@inputGroup class="date" id="date_end_validity" params='data-target-input="nearest"'>
 					    <@input type="text" class="datetimepicker-input"  name='date_end_validity'  value=appointmentform.dateEndValidity!'' params='data-target="#date_end_validity"' />
 					    <@inputGroupItem pos="append" type="text" params='data-target="#date_end_validity" data-toggle="datetimepicker"'>
 					      <@icon class="fa fa-calendar" />
@@ -382,6 +382,6 @@
           keepOpen: false,	  
 	  allowInputToggle: true,	  
 	  stepping: 5
-      });		
+      });
   });
 </script>

@@ -26,7 +26,7 @@
 
 <@formGroup labelFor='attribute${entry.idEntry}' labelKey='${entry.title}' helpKey='${entry.helpMessage!}' class=class mandatory=entry.mandatory>
     <#list entry.fields as field>
-        <@inputGroup class= "date" id="attribute${entry.idEntry}" params='data-target-input="nearest"'>
+        <@inputGroup class="date" id="attribute${entry.idEntry}" params='data-target-input="nearest"'>
 	    <@inputGroupItem pos="append" type="text" params='data-target="#attribute${entry.idEntry}" data-toggle="datetimepicker"'>
                 <@icon class="fa fa-calendar" />
             </@inputGroupItem>
