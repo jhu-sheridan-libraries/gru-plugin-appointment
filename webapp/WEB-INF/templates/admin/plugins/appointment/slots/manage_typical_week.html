@@ -1,12 +1,18 @@
 <#include "/admin/plugins/appointment/appointmentform/modify_appointmentform_tabs_planning.html" />
-<link rel='stylesheet' href='css/plugins/appointment/bootstrap-datetimepicker.css' />
+
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar.css' />
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar_ow_bo.css' />
-<script src="js/jquery/jquery.min.js"></script>
-<script src="js/plugins/appointment/moment.min.js"></script>
-<script src="js/plugins/appointment/bootstrap-datetimepicker.min.js"></script>
+
 <script src='js/plugins/appointment/fullcalendar.min.js' ></script>
 <script src='js/plugins/appointment/locale-all.js' ></script>
+
+<link rel="stylesheet" href="css/admin/plugins/appointment/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" />
+
+<script src="js/plugins/appointment/moment-with-locales.min.js"></script>
+<script src="js/plugins/appointment/tempusdominus-bootstrap-4.min.js"></script>
+<script src="js/jquery/jquery-ui.min.js"></script>
+<script src="js/bootstrap-filestyle.min.js"></script>
+
 <@row>
     <@columns>
         <@appointmentTabs tab="typicalWeek" appointmentform=appointmentform>
@@ -41,23 +47,26 @@
 								</@boxHeader>
                 <@boxBody>
                     <@tform action='jsp/admin/plugins/appointment/ManageAppointmentSlots.jsp' params='enctype="multipart/form-data"'>
-                        <input type="hidden" id="id_form" name="id_form" value="${appointmentform.idForm}"/>
-                        <@formGroup labelFor='time_start' labelKey='#i18n{appointment.createAppointmentForm.labelTimeStart}' helpKey='#i18n{appointment.createAppointmentForm.labelTimeStart.help}' mandatory=true>
-                            <@inputGroup>
-                                <@inputGroupItem type='addon'>
-                                    <@icon style='clock-o' />
-                                </@inputGroupItem>
-                                <@input type='text' name='time_start' id='time_start' value=appointmentform.timeStart!'' />
-                            </@inputGroup>
-                        </@formGroup>
-                        <@formGroup labelFor='time_end' labelKey='#i18n{appointment.createAppointmentForm.labelTimeEnd}' helpKey='#i18n{appointment.createAppointmentForm.labelTimeEnd.help}' mandatory=true>
-                            <@inputGroup>
-                                <@inputGroupItem type='addon'>
-                                  <@icon style='clock-o' />
-                                </@inputGroupItem>
-                                <@input type='text' name='time_end' id='time_end' value=appointmentform.timeEnd!'' />
-                            </@inputGroup>
-                        </@formGroup>
+                      <input type="hidden" id="id_form" name="id_form" value="${appointmentform.idForm}"/>
+
+		      <@formGroup labelFor='time_start' labelKey='#i18n{appointment.createAppointmentForm.labelTimeStart}' helpKey='#i18n{appointment.createAppointmentForm.labelTimeStart.help}' mandatory=true>
+			<@inputGroup class="date" id="time_start" params='data-target-input="nearest"'>
+			  <@input type="text" class="datetimepicker-input"  name='time_start'  value=appointmentform.timeStart!'' params='data-target="#time_start"' />
+			  <@inputGroupItem pos="append" type="text" params='data-target="#time_start" data-toggle="datetimepicker"'>
+			    <@icon class="fa fa-clock" />
+			  </@inputGroupItem>
+			</@inputGroup>
+		      </@formGroup>
+		      
+		      <@formGroup labelFor='time_end' labelKey='#i18n{appointment.createAppointmentForm.labelTimeEnd}' helpKey='#i18n{appointment.createAppointmentForm.labelTimeEnd.help}' mandatory=true>
+			<@inputGroup class="date" id="time_end" params='data-target-input="nearest"'>
+			  <@input type="text" class="datetimepicker-input"  name='time_end'  value=appointmentform.timeEnd!'' params='data-target="#time_end"' />
+			  <@inputGroupItem pos="append" type="text" params='data-target="#time_end" data-toggle="datetimepicker"'>
+			    <@icon class="fa fa-clock" />
+			  </@inputGroupItem>
+			</@inputGroup>
+		      </@formGroup>
+
                         <@formGroup labelFor='duration_appointments' labelKey='#i18n{appointment.createAppointmentForm.labelDurationAppointments}' helpKey='#i18n{appointment.createAppointmentForm.labelDurationAppointments.help}' mandatory=true>
                             <@input type='text' name='duration_appointments' id='duration_appointments' value=appointmentform.durationAppointments!'' params='onkeypress="return validateQty(event);"' maxlength=3 />
                         </@formGroup>
@@ -90,14 +99,16 @@
                             <@checkBox labelFor='is_open_sunday' labelKey='#i18n{appointment.label.OpenSunday}' name='is_open_sunday' id='is_open_sunday' value='true' checked=appointmentform.isOpenSunday!false />
                         </@formGroup>
                         <legend> &nbsp;&nbsp;#i18n{appointment.modifyAppointmentForm.startEditForm} </legend>
-                        <@formGroup labelFor='date_of_modification' labelKey='#i18n{appointment.modifyAppointmentForm.startDate}' helpKey='#i18n{appointment.modifyAppointmentForm.helpDateMin}' mandatory=true>
-                            <@inputGroup>
-                                <@inputGroupItem type='addon'>
-                                    <@icon style='calendar' />
-                                </@inputGroupItem>
-                                <@input type='text' name='date_of_modification' id='date_of_modification' value=appointmentform.dateOfModification!'' />
-                            </@inputGroup>
-                        </@formGroup>
+
+			<@formGroup labelFor='date_of_modification' labelKey='#i18n{appointment.modifyAppointmentForm.startDate}' helpKey='#i18n{appointment.modifyAppointmentForm.helpDateMin}' mandatory=true>
+			  <@inputGroup class="date" id="date_of_modification" params='data-target-input="nearest"'>
+			    <@input type="text" class="datetimepicker-input"  name='date_of_modification'  value=appointmentform.dateOfModification!'' params='data-target="#date_of_modification"' />
+			    <@inputGroupItem pos="append" type="text" params='data-target="#date_of_modification" data-toggle="datetimepicker"'>
+			      <@icon class="fa fa-calendar" />
+			    </@inputGroupItem>
+			  </@inputGroup>
+			</@formGroup>
+
                         <@formGroup>
                             <@button type='submit' name='action_modifyAdvancedParameters' title='#i18n{portal.util.labelModify}' buttonIcon='check' size='' />
                             <@button type='submit' name='view_manageAppointmentForms' title='#i18n{portal.util.labelCancel}' buttonIcon='times' size='' color='btn-secondary' />
@@ -111,29 +122,34 @@
 			</@appointmentTabs>
     </@columns>
 </@row>
-<@getDatePickerBootstrap idField="date_of_modification" language=language />
+
 <script type="text/javascript">
-$('#date_of_modification').datepicker({
-        language:        "${language}",
-        startDate:         new Date(),
-        weekStart: 1,
-        todayBtn: true,
-        todayHighLight: true,
-        autoclose: true
-    });
 $(function () {
-    $('#datetimepicker').datetimepicker({
-        format: 'HH:mm',
-        stepping: 5
+    $('#date_of_modification').datetimepicker({
+	locale: '${language}',
+	format: 'L',
+	keepOpen: false,
+	allowInputToggle: true,
+	buttons: {
+            showToday: true,
+            showClear: true,
+            showClose: true
+	}
     });
     $('#time_start').datetimepicker({
-        format: 'HH:mm',
-        stepping: 5
+        locale: '${language}',
+	format: 'LT',
+        keepOpen: false,	  
+	allowInputToggle: true,	  
+	stepping: 5
     });
     $('#time_end').datetimepicker({
-        format: 'HH:mm',
-        stepping: 5
-    });
+        locale: '${language}',
+	format: 'LT',
+        keepOpen: false,	  
+	allowInputToggle: true,	  
+	stepping: 5
+    });		
 });
 function validateQty(event) {
         var key = window.event ? event.keyCode : event.which;
@@ -179,7 +195,7 @@ function validateQty(event) {
             displayEventTime: false,
             defaultView: 'agendaWeek',
             height: 'auto',
-            locale: 'fr',
+            locale: '${language}',
             theme: true,
             editable: false,
             header: false,

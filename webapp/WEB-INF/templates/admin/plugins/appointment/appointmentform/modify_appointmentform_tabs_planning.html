@@ -26,9 +26,14 @@
 	</@tabs>
 </#macro>
 <#macro modifyAppointmentFormLeftColumn appointmentform >
-<script src="js/jquery/plugins/ui/​jquery-ui-1.9.2.custom.min.js"></script>
-<@getDatePickerBootstrap idField="date_start_validity" language=language />
-<@getDatePickerBootstrap idField="date_end_validity"   language=language />
+
+<link rel="stylesheet" href="css/admin/plugins/appointment/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" />
+
+<script src="js/plugins/appointment/moment-with-locales.min.js"></script>
+<script src="js/plugins/appointment/tempusdominus-bootstrap-4.min.js"></script>
+<script src="js/jquery/jquery-ui.min.js"></script>
+<script src="js/bootstrap-filestyle.min.js"></script>
+
 <script type="text/javascript">
 	function validateQty(event) {
 		var key = window.event ? event.keyCode : event.which;
@@ -42,19 +47,28 @@
 	}
 	else return true;
 	};
-	$('#date_start_validity').datepicker({
-    	language:		"${language}",
-    	weekStart: 1,
-    	todayBtn: true,
-    	todayHighLight: true,
-    	autoclose: true
-	});
-	$('#date_end_validity').datepicker({
-	    language:		"${language}",
-	    weekStart: 1,
-	    todayBtn: true,
-	    todayHighLight: true,
-	    autoclose: true
-	});
+
+      $('#date_start_validity').datetimepicker({
+          locale: '${language}',
+	  format: 'L',
+          keepOpen: false,
+	  allowInputToggle: true,
+          buttons: {
+              showToday: true,
+              showClear: true,
+              showClose: true
+          }
+      });
+      $('#date_end_validity').datetimepicker({
+          locale: '${language}',
+	  format: 'L',
+	  allowInputToggle: true,
+          keepOpen: false,
+          buttons: {
+              showToday: true,
+              showClear: true,
+              showClose: true
+          }
+      });
 </script>
 </#macro> 
