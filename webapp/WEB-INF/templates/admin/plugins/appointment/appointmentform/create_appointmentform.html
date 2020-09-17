@@ -15,6 +15,9 @@
 					<legend class="hidden">#i18n{appointment.createAppointmentForm.title}</legend>
 					<@messages errors=errors />
 					<input type="hidden" id="id_form" name="id_form">
+					<input type="hidden" id="timezone" name="timezone">
+					<input type="hidden" id="timeformat" name="timeformat">
+					<input type="hidden" id="dateformat" name="dateformat">
 	<@formGroup labelFor='title' labelKey='#i18n{appointment.createAppointmentForm.labelTitle}' mandatory=true>
 						<@input type='text' name='title' id='title' value='${appointmentform.title!\'\'}' maxlength=255 />
 					</@formGroup>
@@ -113,7 +116,8 @@
 				<@boxBody>
 
 					<fieldset>						
-						<legend class="hidden">#i18n{appointment.modifyAppointmentForm.titleAlterablesParameters}</legend>				
+						<legend class="hidden">#i18n{appointment.modifyAppointmentForm.titleAlterablesParameters}</legend>
+
 						<h4>#i18n{appointment.createAppointmentForm.labelTitleDaysOpen}</h4>
 						
 						<@formGroup>
@@ -383,5 +387,9 @@
 	  allowInputToggle: true,	  
 	  stepping: 5
       });
+
+      $('#timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+      $('#dateformat').val(moment.localeData().longDateFormat('L'));
+      $('#timeformat').val(moment.localeData().longDateFormat('LT'));
   });
 </script>

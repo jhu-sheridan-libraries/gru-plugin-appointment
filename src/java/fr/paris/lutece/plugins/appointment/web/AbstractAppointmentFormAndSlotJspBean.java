@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
+import fr.paris.lutece.plugins.appointment.service.Utilities;
 import fr.paris.lutece.plugins.appointment.web.dto.AppointmentFormDTO;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 
@@ -97,8 +98,8 @@ public abstract class AbstractAppointmentFormAndSlotJspBean extends MVCAdminJspB
     private boolean checkStartingAndEndingTime( AppointmentFormDTO appointmentForm )
     {
         boolean bReturn = true;
-        LocalTime startingTime = LocalTime.parse( appointmentForm.getTimeStart( ) );
-        LocalTime endingTime = LocalTime.parse( appointmentForm.getTimeEnd( ) );
+        LocalTime startingTime = LocalTime.parse( appointmentForm.getTimeStart( ), Utilities.getCustomFormatter(appointmentForm.getTimeFormat(), getLocale()));
+        LocalTime endingTime = LocalTime.parse( appointmentForm.getTimeEnd( ), Utilities.getCustomFormatter( appointmentForm.getTimeFormat(), getLocale()));
         if ( startingTime.isAfter( endingTime ) )
         {
             bReturn = false;
@@ -115,6 +116,7 @@ public abstract class AbstractAppointmentFormAndSlotJspBean extends MVCAdminJspB
             bReturn = false;
             addError( MESSAGE_ERROR_DAY_DURATION_APPOINTMENT_NOT_MULTIPLE_FORM, getLocale( ) );
         }
+
         return bReturn;
     }
 

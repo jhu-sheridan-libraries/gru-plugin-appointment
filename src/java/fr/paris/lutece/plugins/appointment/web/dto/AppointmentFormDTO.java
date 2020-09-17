@@ -259,6 +259,21 @@ public final class AppointmentFormDTO extends ReservationRule implements RBACRes
     private String _strAddress;
 
     /**
+     * timezone
+     */
+    private String _timezone;
+
+    /**
+     * timeformat
+     */
+    private String _timeFormat;
+
+    /**
+     * dateformat
+     */
+    private String _dateFormat;
+
+    /**
      * Get the maximum number of appointments authorized for a same user
      * 
      * @return the maximum number
@@ -938,7 +953,7 @@ public final class AppointmentFormDTO extends ReservationRule implements RBACRes
     /**
      * Set the authentication of the form
      * 
-     * @param _bActiveAuthentication
+     * @param bActiveAuthentication
      *            the boolean value for the authentication
      */
     public void setActiveAuthentication( boolean bActiveAuthentication )
@@ -1062,4 +1077,45 @@ public final class AppointmentFormDTO extends ReservationRule implements RBACRes
         _strWorkgroup = workGroup;
     }
 
+    /**
+     *  Get the timezone
+     * @return the timezone
+     */
+    public String getTimeZone( ) {return _timezone; }
+
+    /**
+     * set the timezone
+     * @param timezone
+     */
+    public void setTimezone(String timezone ) {
+        this._timezone = timezone;
+    }
+
+    /**
+     * get the time format string
+     * @return the format string
+     */
+    public String getTimeFormat( ){ return _timeFormat; }
+
+    /**
+     * set the time format string
+     * @param timeformat the string
+     */
+    public void setTimeFormat( String timeformat ) {
+        this._timeFormat = timeformat;
+    }
+
+    /**
+     * get the date format string
+     * @return the format string
+     */
+    public String getDateFormat( ){ return _dateFormat; }
+
+    /**
+     * set the date format string
+     * @param dateformat the string
+     */
+    public void setDateFormat( String dateformat ) {
+        this._dateFormat = dateformat;
+    }
 }
