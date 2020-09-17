@@ -38,6 +38,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Class of utilities
@@ -46,6 +47,7 @@ import java.util.List;
 public final class Utilities
 {
     private static DateTimeFormatter _formatter;
+    private static DateTimeFormatter _customFormatter;
 
     /**
      * Private constructor - this class does not need to be instantiated
@@ -66,6 +68,22 @@ public final class Utilities
             _formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale( AppointmentPlugin.getPluginLocale() );
         }
         return _formatter;
+    }
+
+    public static DateTimeFormatter getCustomFormatter(String formatPattern, Locale locale) {
+        if( _customFormatter == null ) {
+            if ( formatPattern != null ) {
+                formatPattern = normalizeFormatString( formatPattern );
+                if ( locale != null ) {
+                    _customFormatter = DateTimeFormatter.ofPattern(formatPattern, locale);
+                } else {
+                    _customFormatter = DateTimeFormatter.ofPattern(formatPattern);
+                }
+            } else {
+                _customFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale( AppointmentPlugin.getPluginLocale( ) );
+            }
+        }
+        return _customFormatter;
     }
 
     /**
@@ -118,6 +136,23 @@ public final class Utilities
     {
         return listDateTime.stream( ).filter( x -> x.isAfter( dateTimeToSearch ) || x.isEqual( dateTimeToSearch ) ).min( LocalDateTime::compareTo )
                 .orElse( null );
+    }
+
+    /**
+     * A convenience method to correct format strings from datetimepicker
+     * @param originalPattern
+     * @return
+     */
+    private static String normalizeFormatString ( String originalPattern ) {
+        String normalized;
+        // "h:mm A" needs to be "h:mm a"
+        if (originalPattern.contains("h:") && originalPattern.endsWith(" A")) {
+            normalized = originalPattern.replace(" A", " a");
+        } else {
+            normalized = originalPattern;
+        }
+
+        return normalized;
     }
 
 }
