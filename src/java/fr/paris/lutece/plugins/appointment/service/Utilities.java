@@ -37,6 +37,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,7 +48,6 @@ import java.util.Locale;
 public final class Utilities
 {
     private static DateTimeFormatter _formatter;
-    private static DateTimeFormatter _customFormatter;
 
     /**
      * Private constructor - this class does not need to be instantiated
@@ -70,20 +70,18 @@ public final class Utilities
         return _formatter;
     }
 
-    public static DateTimeFormatter getCustomFormatter(String formatPattern, Locale locale) {
-        if( _customFormatter == null ) {
-            if ( formatPattern != null ) {
-                formatPattern = normalizeFormatString( formatPattern );
-                if ( locale != null ) {
-                    _customFormatter = DateTimeFormatter.ofPattern(formatPattern, locale);
-                } else {
-                    _customFormatter = DateTimeFormatter.ofPattern(formatPattern);
-                }
-            } else {
-                _customFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale( AppointmentPlugin.getPluginLocale( ) );
-            }
+    public static DateTimeFormatter buildCustomFormatter(String formatPattern, Locale locale) {
+        DateTimeFormatter customFormatter;
+        if ( locale == null ) { locale = AppointmentPlugin.getPluginLocale(); }
+        formatPattern = normalizeFormatString( formatPattern );
+
+        if( formatPattern != null ) {
+            customFormatter = DateTimeFormatter.ofPattern(formatPattern, locale);
+        } else {
+            customFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale( locale );
         }
-        return _customFormatter;
+
+        return customFormatter;
     }
 
     /**
