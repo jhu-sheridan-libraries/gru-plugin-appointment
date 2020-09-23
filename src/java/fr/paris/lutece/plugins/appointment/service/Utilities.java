@@ -37,7 +37,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,6 +69,12 @@ public final class Utilities
         return _formatter;
     }
 
+    /**
+     *  Construct a custom DateTimeFormatter for a supplied format string and locale
+     * @param formatPattern the format pattern string
+     * @param locale the supplied locae
+     * @return the custom DateTimeFormatter
+     */
     public static DateTimeFormatter buildCustomFormatter(String formatPattern, Locale locale) {
         DateTimeFormatter customFormatter;
         if ( locale == null ) { locale = AppointmentPlugin.getPluginLocale(); }
@@ -138,8 +143,8 @@ public final class Utilities
 
     /**
      * A convenience method to correct format strings from datetimepicker
-     * @param originalPattern
-     * @return
+     * @param originalPattern - the supplied format string
+     * @return a format string that formatters can understand
      */
     private static String normalizeFormatString ( String originalPattern ) {
         String normalized;
