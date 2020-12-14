@@ -22,6 +22,7 @@ public class FormServiceTest extends LuteceTestCase
 {
 
     public static final String TITLE_FORM = "Title Form";
+    public static final String COPY = "Copie";
 
     /**
      * Test method for the creation of a form
@@ -61,7 +62,7 @@ public class FormServiceTest extends LuteceTestCase
 
         appointmentForm.setMinTimeBeforeAppointment( 30 );
         appointmentForm.setDateStartValidity( Date.valueOf( LocalDate.now( ) ) );
-        appointmentForm.setDateEndValidity( Date.valueOf( LocalDate.parse( "2025-12-25" ) ) );
+        appointmentForm.setDateEndValidity( Date.valueOf( Constants.DATE_5 ) );
 
         appointmentForm.setDisplayTitleFo( Boolean.TRUE );
         appointmentForm.setIsDisplayedOnPortlet( Boolean.TRUE );
@@ -119,12 +120,12 @@ public class FormServiceTest extends LuteceTestCase
         // Build the form
         AppointmentFormDTO appointmentForm = FormServiceTest.buildAppointmentForm( );
         int nIdForm = FormService.createAppointmentForm( appointmentForm );
-        int nIdCopyForm = FormService.copyForm( nIdForm, "Copie" );
+        int nIdCopyForm = FormService.copyForm( nIdForm, COPY );
         List<DayOfWeek> listopenDays = WorkingDayService.getOpenDays( appointmentForm );
         AppointmentFormDTO copyAppointmentForm = FormService.buildAppointmentForm( nIdCopyForm, 0, 0 );
         assertEquals( WeekDefinitionService.findListWeekDefinition( nIdForm ).size( ), WeekDefinitionService.findListWeekDefinition( nIdCopyForm ).size( ) );
         assertEquals( WorkingDayService.getOpenDays( appointmentForm ), WorkingDayService.getOpenDays( copyAppointmentForm ) );
-        assertEquals( "Copie", copyAppointmentForm.getTitle( ) );
+        assertEquals( COPY, copyAppointmentForm.getTitle( ) );
 
         FormService.removeForm( nIdCopyForm );
         assertEquals( listopenDays, WorkingDayService.getOpenDays( appointmentForm ) );

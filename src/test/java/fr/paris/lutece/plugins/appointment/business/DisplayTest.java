@@ -42,6 +42,8 @@ import fr.paris.lutece.plugins.appointment.business.form.FormHome;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.test.LuteceTestCase;
 
+import java.util.List;
+
 /**
  * Test Class for the Display
  * 
@@ -59,22 +61,18 @@ public final class DisplayTest extends LuteceTestCase
     public static final String ICON_FORM_MIME_TYPE_2 = "ICON_FORM_MIME_TYPE_2";
     public static final int NB_WEEKS_TO_DISPLAY_1 = 10;
     public static final int NB_WEEKS_TO_DISPLAY_2 = 20;
+    private Form form;
+    private CalendarTemplate calendarTemplate;
 
     /**
      * Test method for the Display (CRUD)
      */
     public void testDisplay( )
     {
-        Form form = FormTest.buildForm1( );
-        FormHome.create( form );
-
-        CalendarTemplate calendarTemplate = CalendarTemplateTest.buildCalendarTemplate( );
-        CalendarTemplateHome.create( calendarTemplate );
-
         // Initialize a Display
         Display display = buildDisplay( );
-        display.setIdForm( form.getIdForm( ) );
-        display.setIdCalendarTemplate( calendarTemplate.getIdCalendarTemplate( ) );
+        display.setIdForm( this.form.getIdForm( ) );
+        display.setIdCalendarTemplate( this.calendarTemplate.getIdCalendarTemplate( ) );
         // Create the Display in database
         DisplayHome.create( display );
         // Find the Display created in database
@@ -102,8 +100,6 @@ public final class DisplayTest extends LuteceTestCase
         // Check the Display has been removed from database
         assertNull( displayStored );
 
-        // Clean
-        FormHome.delete( form.getIdForm( ) );
     }
 
     /**
@@ -111,23 +107,17 @@ public final class DisplayTest extends LuteceTestCase
      */
     public void testDeleteCascade( )
     {
-        Form form = FormTest.buildForm1( );
-        FormHome.create( form );
-
-        CalendarTemplate calendarTemplate = CalendarTemplateTest.buildCalendarTemplate( );
-        CalendarTemplateHome.create( calendarTemplate );
-
         // Initialize a Display
         Display display = buildDisplay( );
-        display.setIdForm( form.getIdForm( ) );
-        display.setIdCalendarTemplate( calendarTemplate.getIdCalendarTemplate( ) );
+        display.setIdForm( this.form.getIdForm( ) );
+        display.setIdCalendarTemplate( this.calendarTemplate.getIdCalendarTemplate( ) );
         // Create the Display in database
         DisplayHome.create( display );
         // Find the Display created in database
         Display displayStored = DisplayHome.findByPrimaryKey( display.getIdDisplay( ) );
         assertNotNull( displayStored );
         // Delete the Form and by cascade the Display
-        FormHome.delete( form.getIdForm( ) );
+        FormHome.delete( this.form.getIdForm( ) );
         displayStored = DisplayHome.findByPrimaryKey( display.getIdDisplay( ) );
         // Check the Display has been removed from database
         assertNull( displayStored );
@@ -138,25 +128,17 @@ public final class DisplayTest extends LuteceTestCase
      */
     public void testFindByIdForm( )
     {
-        Form form = FormTest.buildForm1( );
-        FormHome.create( form );
-
-        CalendarTemplate calendarTemplate = CalendarTemplateTest.buildCalendarTemplate( );
-        CalendarTemplateHome.create( calendarTemplate );
-
         // Initialize a Display
         Display display = buildDisplay( );
-        display.setIdForm( form.getIdForm( ) );
-        display.setIdCalendarTemplate( calendarTemplate.getIdCalendarTemplate( ) );
+        display.setIdForm( this.form.getIdForm( ) );
+        display.setIdCalendarTemplate( this.calendarTemplate.getIdCalendarTemplate( ) );
         // Create the Display in database
         DisplayHome.create( display );
         // Find the Display created in database
-        Display displayStored = DisplayHome.findByIdForm( form.getIdForm( ) );
+        Display displayStored = DisplayHome.findByIdForm( this.form.getIdForm( ) );
         // Check Asserts
         checkAsserts( displayStored, display );
 
-        // Clean
-        FormHome.delete( form.getIdForm( ) );
     }
 
     /**
@@ -192,5 +174,34 @@ public final class DisplayTest extends LuteceTestCase
         assertEquals( displayStored.getIcon( ).getMimeType( ), display.getIcon( ).getMimeType( ) );
         assertEquals( displayStored.getIdCalendarTemplate( ), display.getIdCalendarTemplate( ) );
         assertEquals( displayStored.getIdForm( ), display.getIdForm( ) );
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        this.form = FormTest.buildForm1( );
+        FormHome.create( this.form );
+
+        this.calendarTemplate = CalendarTemplateTest.buildCalendarTemplate( );
+        CalendarTemplateHome.create( this.calendarTemplate );
+
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        //delete all the forms left over from tests
+        for (Form f : FormHome.findAllForms()) {
+            FormHome.delete(f.getIdForm());
+            assertNull(FormHome.findByPrimaryKey(f.getIdForm()));
+        }
+
+        for(CalendarTemplate cal : CalendarTemplateHome.findAll()) {
+            CalendarTemplateHome.delete(cal.getIdCalendarTemplate());
+            assertNull(CalendarTemplateHome.findByPrimaryKey(cal.getIdCalendarTemplate()));
+        }
+        this.form = null;
+        this.calendarTemplate = null;
     }
 }

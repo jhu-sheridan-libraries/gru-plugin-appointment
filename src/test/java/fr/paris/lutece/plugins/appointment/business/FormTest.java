@@ -67,7 +67,7 @@ public final class FormTest extends LuteceTestCase
     public final static boolean IS_ACTIVE2 = false;
     public final static int ID_WORKFLOW_1 = 1;
     public final static int ID_WORKFLOW_2 = 2;
-
+    private Form form;
     /**
      * Test method for the Form (CRUD)
      */
@@ -200,8 +200,6 @@ public final class FormTest extends LuteceTestCase
         List<WeekDefinition> listWeekDefinition = FormHome.getListWeekDefinition( form.getIdForm( ) );
         assertEquals( listWeekDefinition.size( ), 2 );
 
-        // Clean
-        FormHome.delete( form.getIdForm( ) );
 
     }
 
@@ -238,6 +236,16 @@ public final class FormTest extends LuteceTestCase
         assertEquals( formStored.getEndingValidityDate( ), form.getEndingValidityDate( ) );
         assertEquals( formStored.getIsActive( ), form.getIsActive( ) );
         assertEquals( formStored.getIdWorkflow( ), form.getIdWorkflow( ) );
+    }
+
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        //delete all the forms left over from tests
+        for (Form f : FormHome.findAllForms()) {
+            FormHome.delete(f.getIdForm());
+        }
     }
 
 }

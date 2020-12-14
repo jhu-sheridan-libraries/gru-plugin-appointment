@@ -39,6 +39,8 @@ import fr.paris.lutece.plugins.appointment.business.message.FormMessage;
 import fr.paris.lutece.plugins.appointment.business.message.FormMessageHome;
 import fr.paris.lutece.test.LuteceTestCase;
 
+import java.util.List;
+
 /**
  * Test Class for the FormMessage
  * 
@@ -82,18 +84,16 @@ public final class FormMessageTest extends LuteceTestCase
     public static final String CALENDAR_RESERVE_LABEL_2 = "CalendarReserveLabel2";
     public static final String CALENDAR_FULL_LABEL_1 = "CalendarFullLabel1";
     public static final String CALENDAR_FULL_LABEL_2 = "CalendarFullLabel2";
+    private Form form;
 
     /**
      * Test method for the FormMessage (CRUD)
      */
     public void testFormMessage( )
     {
-        Form form = FormTest.buildForm1( );
-        FormHome.create( form );
-
         // Initialize a FormMessage
         FormMessage formMessage = buildFormMessage( );
-        formMessage.setIdForm( form.getIdForm( ) );
+        formMessage.setIdForm( this.form.getIdForm( ) );
         // Create the FormMessage in database
         FormMessageHome.create( formMessage );
         // Find the FormMessage created in database
@@ -132,8 +132,6 @@ public final class FormMessageTest extends LuteceTestCase
         // Check the FormMessage has been removed from database
         assertNull( formMessageStored );
 
-        // Clean
-        FormHome.delete( form.getIdForm( ) );
     }
 
     /**
@@ -141,19 +139,16 @@ public final class FormMessageTest extends LuteceTestCase
      */
     public void testDeleteCascade( )
     {
-        Form form = FormTest.buildForm1( );
-        FormHome.create( form );
-
         // Initialize a FormMessage
         FormMessage formMessage = buildFormMessage( );
-        formMessage.setIdForm( form.getIdForm( ) );
+        formMessage.setIdForm( this.form.getIdForm( ) );
         // Create the FormMessage in database
         FormMessageHome.create( formMessage );
         // Find the FormMessage created in database
         FormMessage formMessageStored = FormMessageHome.findByPrimaryKey( formMessage.getIdFormMessage( ) );
         assertNotNull( formMessageStored );
         // Delete the Form and by cascade the FormMessage
-        FormHome.delete( form.getIdForm( ) );
+        FormHome.delete( this.form.getIdForm( ) );
         formMessageStored = FormMessageHome.findByPrimaryKey( formMessage.getIdFormMessage( ) );
         // Check the FormMessage has been removed from database
         assertNull( formMessageStored );
@@ -165,21 +160,15 @@ public final class FormMessageTest extends LuteceTestCase
      */
     public void testFindByIdForm( )
     {
-        Form form = FormTest.buildForm1( );
-        FormHome.create( form );
-
         // Initialize a FormMessage
         FormMessage formMessage = buildFormMessage( );
-        formMessage.setIdForm( form.getIdForm( ) );
+        formMessage.setIdForm( this.form.getIdForm( ) );
         // Create the FormMessage in database
         FormMessageHome.create( formMessage );
         // Find the FormMessage created in database
-        FormMessage formMessageStored = FormMessageHome.findByIdForm( form.getIdForm( ) );
+        FormMessage formMessageStored = FormMessageHome.findByIdForm( this.form.getIdForm( ) );
         // Check Asserts
         checkAsserts( formMessageStored, formMessage );
-
-        // Clean
-        FormHome.delete( form.getIdForm( ) );
     }
 
     /**
@@ -238,6 +227,24 @@ public final class FormMessageTest extends LuteceTestCase
         assertEquals( formMessageStored.getCalendarReserveLabel( ), formMessage.getCalendarReserveLabel( ) );
         assertEquals( formMessageStored.getCalendarFullLabel( ), formMessage.getCalendarFullLabel( ) );
         assertEquals( formMessageStored.getIdForm( ), formMessage.getIdForm( ) );
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        this.form = FormTest.buildForm1( );
+        FormHome.create( this.form );
+
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        //delete all the forms left over from tests
+        for (Form f : FormHome.findAllForms()) {
+            FormHome.delete(f.getIdForm());
+        }
+        this.form = null;
     }
 
 }

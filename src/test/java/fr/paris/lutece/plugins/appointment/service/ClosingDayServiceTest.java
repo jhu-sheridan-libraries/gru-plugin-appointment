@@ -17,14 +17,14 @@ public class ClosingDayServiceTest extends LuteceTestCase
         // Build the form
         int nIdForm = FormService.createAppointmentForm( FormServiceTest.buildAppointmentForm( ) );
         List<LocalDate> listClosingDays = new ArrayList<>( );
-        listClosingDays.add( LocalDate.parse( "2022-05-01" ) );
-        listClosingDays.add( LocalDate.parse( "2022-05-08" ) );
-        listClosingDays.add( LocalDate.parse( "2022-07-14" ) );
-        listClosingDays.add( LocalDate.parse( "2022-08-15" ) );
+        listClosingDays.add( Constants.DATE_10 );
+        listClosingDays.add( Constants.DATE_11 );
+        listClosingDays.add( Constants.DATE_12 );
+        listClosingDays.add( Constants.DATE_13 );
         ClosingDayService.saveListClosingDay( nIdForm, listClosingDays );
 
-        List<LocalDate> listClosingDaysFound = ClosingDayService.findListDateOfClosingDayByIdFormAndDateRange( nIdForm, LocalDate.parse( "2022-06-01" ),
-                LocalDate.parse( "2022-09-01" ) );
+        List<LocalDate> listClosingDaysFound = ClosingDayService.findListDateOfClosingDayByIdFormAndDateRange( nIdForm, Constants.DATE_1,
+                Constants.DATE_9);
         assertEquals( 2, listClosingDaysFound.size( ) );
 
         FormService.removeForm( nIdForm );
