@@ -1,3 +1,5 @@
+<#include "/admin/plugins/appointment/date_commons.html" />
+
 <#--
 -- Check if the checkbox must be checked or not
 -- @param code the checkbox code
@@ -146,23 +148,25 @@
     <input type='hidden' name='action' value="${action}" />
     <input type='hidden' name='id_form' value="${idForm}" />
     <input type='hidden' name='id_comment' <#if comment??>value="${comment.id!''}"</#if> />
+    <input type='hidden' id=idStartingDate name='startingValidityDate' />
+    <input type='hidden' id=idEndingDate name='endingValidityDate' />
 
     <@formGroup labelFor='comment' labelKey='#i18n{appointment.comment.name}'>
         <@input type='textarea' name='comment' id=idComment richtext=true />
     </@formGroup>
     
-    <@formGroup labelFor='startingValidityDate' labelKey='#i18n{create_comment.labelStartingValidityDate}'>
+    <@formGroup labelFor='${idStartingDate}_user' labelKey='#i18n{create_comment.labelStartingValidityDate}'>
         <@inputGroup>
-            <@input type='text' name='startingValidityDate' id=idStartingDate />
+            <@input type='text' class='datetimepicker' id='${idStartingDate}_user' name='' />
             <@inputGroupItem type='addon'>
             <@icon style='calendar' />
             </@inputGroupItem>
         </@inputGroup>
     </@formGroup>
     
-    <@formGroup labelFor='endingValidityDate' labelKey='#i18n{create_comment.labelEndingValidityDate}'>
+    <@formGroup labelFor='${idEndingDate}_user' labelKey='#i18n{create_comment.labelEndingValidityDate}'>
         <@inputGroup>
-            <@input type='text' name='endingValidityDate' id=idEndingDate />
+            <@input type='text' class='datetimepicker' id='${idEndingDate}_user' name=''/>
             <@inputGroupItem type='addon'>
             <@icon style='calendar' />
             </@inputGroupItem>
@@ -172,5 +176,8 @@
     <@formGroup labelFor='sub' labelKey=''>
         <@button type='submit' name='action_${action}' buttonIcon='sea' title='Enregistrer' />   
     </@formGroup>
+
+	<@setupDatePicker idField=${idStartingDate}_user idServerField=idStartingDate />
+	<@setupDatePicker idField=${idEndingDate}_user idServerField=idEndingDate />	
 </@tform>
 </#macro>
