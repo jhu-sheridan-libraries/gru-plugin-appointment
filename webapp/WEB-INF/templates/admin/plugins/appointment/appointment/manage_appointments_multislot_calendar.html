@@ -1,15 +1,11 @@
 <#include "/admin/plugins/appointment/appointment/manage_appointment_tabs.html" />
-<script src="js/plugins/appointment/moment.min.js" ></script>
+
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar.css' />
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar_ow_bo.css' />
-<script src='js/plugins/appointment/jquery.min.js' ></script>
+<link rel='stylesheet' href='js/jquery/plugins/ui/css/jquery-ui.min.css'  />
+<script src="js/jquery/jquery.min.js"></script>
 <script src='js/plugins/appointment/fullcalendar.min.js' ></script>
-<script src='js/plugins/appointment/locale-all.js' ></script>
-<script src="js/plugins/appointment/bootstrap-datepicker.js" ></script>
-<script src="js/locales/bootstrap-datepicker.fr.js" charset="utf-8"></script>
-<link rel='stylesheet' href='css/plugins/appointment/bootstrap-datepicker.min.css' />
-<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui.min.css"  />
-<link rel='stylesheet' href='css/plugins/appointment/bootstrap-datepicker.standalone.css' />
+
 <@row>
     <@columns>
         <legend>
@@ -195,33 +191,14 @@
             defaultDate: defaultDate,
             defaultView: 'agendaWeek',
             height: 'auto',
-            locale: "${locale}",
+            locale: moment.locale(),
             theme: true,
             editable: false,
             customButtons: {
                 datePicker: {
                     text: '#i18n{appointment.appointmentCalendar.labelChooseDate}',
                     click: function () {
-                        var $btnCustom = $('.fc-datePicker-button'); // name of custom  button in the generated code
-                        $btnCustom.after('<input type="text" id="hiddenDate" class="datepicker"/>');
-                        $("#hiddenDate").datepicker({
-                            showOn: "button",
-                            language: "${locale}",
-                            autoclose: true,
-                            startDate: strStartingDateOfDisplay,
-                            endDate: strEndingDateOfDisplay,
-                            orientation: "bottom"
-                        });
-                        var $btnDatepicker = $(".ui-datepicker-trigger"); // name of the generated datepicker UI 
-                        //Below are required for manipulating dynamically created datepicker on custom button click
-                        $("#hiddenDate").focus().hide();
-                        $btnDatepicker.trigger("click"); //dynamically generated button for datepicker when clicked on input textbox
-                        $btnDatepicker.hide();
-                        $btnDatepicker.remove();
-                        $("input.datepicker").not(":first").remove();//dynamically appended every time on custom button click
-                        $("#hiddenDate").change(function () {
-                            $('#calendar').fullCalendar('gotoDate', moment($("#hiddenDate").val(),'DD-MM-YYYY'));
-                        });
+                        $('#hiddenDate').data('DateTimePicker').toggle();
                     }
                 }
             },
@@ -233,7 +210,7 @@
             columnHeaderHtml: function(mom) {
                 return mom.format('dddd') + '</br>' + mom.format('LL');
             },
-            slotLabelFormat: 'H:mm',
+            slotLabelFormat: '${USER_TIME_FORMAT}',
             slotLabelInterval: slotDuration,
             slotDuration: slotDuration,
             allDaySlot: true,
@@ -247,8 +224,9 @@
         
             events: events,
             viewRender: function(view, element) {
-                var minDate = moment(startingDateOfDisplay);
-                var maxDate = moment(endingDateOfDisplay);
+                var minDate = moment(startingDateOfDisplay, '${SERVER_DATE_FORMAT}');^M
+                var maxDate = moment(endingDateOfDisplay, '${SERVER_DATE_FORMAT}');^M
+
                 // Past
                 if (minDate >= view.start && minDate <= view.end || view.end <= minDate) {
                     $(".fc-prev-button").prop('disabled', true);
@@ -294,9 +272,9 @@
                     trigger : 'hover'
                 }
                 if( event.type == "comment" ){
-                    json.content = "<center>"+event.start.format('ddd DD/MM')+"</center>" + "<center><b>" + event.start.format('HH:mm') + "</b> - <b>" + event.end.format('HH:mm')+"</b></center><center>" + event.title + "</center><center>" + event.creator_user + "</center><center>" + event.creation_date + "</center>";
+                    json.content = "<center>"+event.start.format('ddd LL')+"</center>" + "<center><b>" + event.start.format('${USER_TIME_FORMAT}') + "</b> - <b>" + event.end.format('${USER_TIME_FORMAT}')+"</b></center><center>" + event.title + "</center><center>" + event.creator_user + "</center><center>" + event.creation_date + "</center>";
                 }else{
-                    json.content = "<center>"+event.start.format('ddd DD/MM')+"</center>" + "<center><b>" + event.start.format('HH:mm') + "</b> - <b>" + event.end.format('HH:mm')+"</b></center>";
+                    json.content = "<center>"+event.start.format('ddd LL')+"</center>" + "<center><b>" + event.start.format('${USER_TIME_FORMAT}') + "</b> - <b>" + event.end.format('${USER_TIME_FORMAT}')+"</b></center>";
                 }
                 $(element).popover( json );
                 $(element).contextmenu(function() {
@@ -317,17 +295,13 @@ $(document).ready(function () {
 	$('#starting_date_time_span').text($(this).data('starting_date_time'));
         $('#my_modal').modal('show');
     });
-
-
- 
 });
 </script>
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
-<@getDatePickerBootstrap idField="modifyStartingValidityDate" language=locale />
-<@getDatePickerBootstrap idField="modifyEndingValidityDate" language=locale />
-<@getDatePickerBootstrap idField="startingValidityDate" language=locale />
-<@getDatePickerBootstrap idField="endingValidityDate" language=locale />
+
+<@setupDatePicker idField='hiddenDate" minServerDate=starting_date_of_display maxServerDate=ending_date_of_display />
+
 <script type="text/javascript">
 $(document).ready(function() {
     $("#toggle-add-comment").click(function() {
@@ -343,5 +317,12 @@ $(document).ready(function() {
         $( "#modify-comment input[name='endingValidityDate']" ).datepicker().datepicker( 'setDate', new Date( parseInt( formValues.comment_end ) ) );
         $( "#modify-comment" ).toggle();
     });
+
+    $('#hiddenDate').on('dp.change', (function () {
+        $('#calendar').fullCalendar('gotoDate', moment($('#hiddenDate').val(), '${USER_DATE_FORMAT}'));
+    }));
+
+    // Ensure date picker displays under button
+    $('#hiddenDate').data('DateTimePicker').widgetParent($('.fc-datePicker-button'));
 });
 </script>
