@@ -1,5 +1,3 @@
-<#include "/admin/plugins/appointment/date_commons.html" />
-
 <#--
 -- Check if the checkbox must be checked or not
 -- @param code the checkbox code
@@ -177,7 +175,7 @@
         <@button type='submit' name='action_${action}' buttonIcon='sea' title='Enregistrer' />   
     </@formGroup>
 
-	<@setupDatePicker idField=${idStartingDate}_user idServerField=idStartingDate />
-	<@setupDatePicker idField=${idEndingDate}_user idServerField=idEndingDate />	
+	<@setupDatePicker idField='${idStartingDate}_user' idServerField=idStartingDate />
+	<@setupDatePicker idField='{idEndingDate}_user' idServerField=idEndingDate />	
 </@tform>
 </#macro>
