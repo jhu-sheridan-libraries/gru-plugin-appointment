@@ -1,3 +1,5 @@
+<#include "/admin/plugins/appointment/date_commons.html" />
+
 <@row>
 	<@tform id='formid' class='form-horizontal' method='post' action='jsp/admin/plugins/appointment/ManageAppointmentForms.jsp' params='enctype=\'multipart/form-data\''>
 		<@columns>
@@ -66,7 +68,7 @@
 						<@setupDatePicker idField='date_end_validity_user' idServerField='date_end_validity' />
 					</@formGroup>
 					<@formGroup labelFor='bo_overbooking' labelKey='#i18n{appointment.label.BoOverbooking}' helpKey='#i18n{appointment.label.BoOverbooking.help}'>
-                      <@checkBox labelFor='bo_overbooking' name='bo_overbooking' value='true' checked=appointmentform.boOverbooking!false />
+                      <@check labelFor='bo_overbooking' name='bo_overbooking' id='bo_overbooking' value='true' checked=appointmentform.boOverbooking!false />
      				</@formGroup> 
 					<@formGroup labelFor='is_multislot_appointment' labelKey='#i18n{appointment.label.isMultislotAppointment}' helpKey='#i18n{appointment.label.isMultislotAppointment.help}'>
 						<@checkBox name='is_multislot_appointment' id='is_multislot_appointment' value='true' checked=appointmentform.isMultislotAppointment!false />
@@ -353,30 +355,4 @@
 	}
 	else return true;
 	};
-    $('#date_start_validity').datepicker({
-		    language:		"${language}",
-		    startDate: 		new Date(),
-		    weekStart: 1,
-		    todayBtn: true,
-		    todayHighLight: true,
-		    autoclose: true
-		});
-	$('#date_end_validity').datepicker({
-		    language:		"${language}",
-		    startDate: 		new Date(),
-		    weekStart: 1,
-		    todayBtn: true,
-		    todayHighLight: true,
-		    autoclose: true
-		});
-	$(function () {
-		$('#time_start').datetimepicker({
-		  format: 'HH:mm',
-		  stepping: 5
-	    });
-		$('#time_end').datetimepicker({
-		  format: 'HH:mm',
-		  stepping: 5
-	    });		
-	});
 </script>

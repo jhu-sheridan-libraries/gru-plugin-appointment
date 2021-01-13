@@ -149,7 +149,7 @@
     $(document).ready(function() {
 		$('#calendar').fullCalendar({
             displayEventEnd: true,
-            timeFormat: 'H:mm',
+            timeFormat: '${USER_TIME_FORMAT}',
             themeSystem: 'jquery-ui',
             themeButtonIcons: {
                 prev: 'chevron-left',
@@ -161,14 +161,14 @@
 			defaultDate: defaultDate,
 			defaultView: weekView,
 			height: 'auto',
-                        locale: moment.locale(),
+            locale: moment.locale(),
 			theme: true,
 			editable: false,
 			customButtons: {
 				datePicker: {
                     themeIcon: 'calendar',
 					click: function () {
-                                            $('#hiddenDate').data("DateTimePicker").toggle();
+                    	$('#hiddenDate').data("DateTimePicker").toggle();
 					}
 				}
 			},
