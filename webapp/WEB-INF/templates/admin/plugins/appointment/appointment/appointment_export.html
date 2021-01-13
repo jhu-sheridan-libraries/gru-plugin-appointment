@@ -5,11 +5,11 @@
 		<@modalBody>
 			<@formGroup>
 				<#list defaultFieldList as defaultField>
-					<@checkBox name="selectedDefaultFieldList" value=defaultField.code labelKey=defaultField.name checked=true /> 
+					<@checkBox name='selectedDefaultFieldList' id='selectedDefaultFieldList' value=defaultField.code labelKey=defaultField.name checked=true /> 
 				</#list>
 				<hr />
 				<#list customFieldList as customField>
-					<@checkBox name="selectedCustomFieldList" value=customField.code labelKey=customField.name checked=true /> 
+					<@checkBox name='selectedCustomFieldList' id='selectedCustomFieldList' value=customField.code labelKey=customField.name checked=true /> 
 				</#list>
 			</@formGroup>
 		</@modalBody>
