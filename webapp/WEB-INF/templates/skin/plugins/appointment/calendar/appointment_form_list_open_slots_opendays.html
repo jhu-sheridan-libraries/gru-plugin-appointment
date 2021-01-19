@@ -1,4 +1,4 @@
-<#include "/admin/plugins/appointment/commons.html" />
+<#include "/admin/plugins/appointment/date_commons.html" />
 
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar.css' />
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar_ow.css' />
@@ -211,8 +211,8 @@
                 });
             },
 		    viewRender: function(view, element) {
-                                var minDate = moment(minDateOfOpenDay, '${SERVER_DATE_FORMAT}');
-                                var maxDate = moment(maxDateOfOpenDay, '${SERVER_DATE_FORMAT}');
+                var minDate = moment(minDateOfOpenDay, '${SERVER_DATE_FORMAT}');
+                var maxDate = moment(maxDateOfOpenDay, '${SERVER_DATE_FORMAT}');
 
 				// Past
 				if (minDate >= view.start && minDate <= view.end || view.end <= minDate) {

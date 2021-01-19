@@ -1,3 +1,5 @@
+<#include "/admin/plugins/appointment/date_commons.html" />
+
 <#if list_responses??>
 	<#list list_responses as response>
 		<#if response.entry.idEntry == entry.idEntry && response.entry.error?? && response.entry.error.isDisplayableError>
