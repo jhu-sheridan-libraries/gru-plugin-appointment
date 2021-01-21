@@ -4,11 +4,13 @@
 
 <#-- Initialize moment library with locale if available -->
 <script type='text/javascript' charset='utf-8'>
-    <#if locale??>
-        moment.locale('${locale}');
-    <#elseif language??>
-        moment.locale('${language}');
-    </#if>
+    $(document).ready( function() {
+        <#if locale??>
+            moment.locale('${locale}');
+        <#elseif language??>
+            moment.locale('${language}');
+        </#if>
+    });
 </script>
 
 <#-- Moment date and time formats for user interface -->
