@@ -39,31 +39,35 @@
                 <#if maxServerDate?has_content>
                     maxDate: moment('${maxServerDate}', '${SERVER_DATE_FORMAT}'),
                 </#if>
-            icons: {
-                time: 'fa fa-clock-o',
-                date: 'fa fa-calendar',
-                up: 'fa fa-chevron-up',
-                down: 'fa fa-chevron-down',
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-           }
-        });
+                icons: {
+                    time: 'fa fa-clock-o',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-chevron-up',
+                    down: 'fa fa-chevron-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
 
-        <#-- Upate server field when user field changes. -->
-            <#if idServerField?has_content>
-                $('#${idField}').on('dp.change', (function () {
-                    $('#${idServerField}').val(moment($('#${idField}').val(), '${USER_DATE_FORMAT}', true).format('${SERVER_DATE_FORMAT}'));
-                }));
-            </#if>
+        <#-- Update server field when user field changes. If user field already has a value, initialize server field. -->
+        <#if idServerField?has_content>
+            $('#${idField}').on('dp.change', (function () {
+                $('#${idServerField}').val(moment($('#${idField}').val(), '${USER_DATE_FORMAT}', true).format('${SERVER_DATE_FORMAT}'));
+            }));
 
-        <#-- Initialize fields if given a date -->
-            <#if serverDate?has_content>
-                $('#${idField}').val(moment('${serverDate}', '${SERVER_DATE_FORMAT}', true).format('${USER_DATE_FORMAT}'));
-                $('#${idServerField}').val('${serverDate}');
-            </#if>
+            if ($('#${idField}').val()) {
+                $('#${idServerField}').val(moment($('#${idField}').val(), '${USER_DATE_FORMAT}', true).format('${SERVER_DATE_FORMAT}'));
+            }
+        </#if>
+
+        <#-- Initialize fields if given a date. -->
+        <#if serverDate?has_content>
+            $('#${idField}').val(moment('${serverDate}', '${SERVER_DATE_FORMAT}', true).format('${USER_DATE_FORMAT}'));
+            $('#${idServerField}').val('${serverDate}');
+        </#if>
         });
     </script>
 </#macro>
@@ -95,12 +99,16 @@
                 }
             });
 
-            <#-- Upate server field when user field changes. -->
-                <#if idServerField?has_content>
-                    $('#${idField}').on('dp.change', (function () {
-                        $('#${idServerField}').val(moment($('#${idField}').val(), '${USER_TIME_FORMAT}', true).format('${SERVER_TIME_FORMAT}'));
-                    }));
-                </#if>
+            <#-- Upate server field when user field changes. If user field already has a value, initialize server field. -->
+            <#if idServerField?has_content>
+                $('#${idField}').on('dp.change', (function () {
+                    $('#${idServerField}').val(moment($('#${idField}').val(), '${USER_TIME_FORMAT}', true).format('${SERVER_TIME_FORMAT}'));
+                }));
+                    
+                if ($('#${idField}').val()) {
+                    $('#${idServerField}').val(moment($('#${idField}').val(), '${USER_TIME_FORMAT}', true).format('${SERVER_TIME_FORMAT}'));
+                }
+            </#if>
 
             <#-- Initialize fields if given a time -->
             <#if serverTime?has_content>
