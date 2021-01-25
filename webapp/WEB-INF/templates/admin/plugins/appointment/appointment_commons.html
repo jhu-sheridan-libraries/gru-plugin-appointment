@@ -146,8 +146,8 @@
     <input type='hidden' name='action' value="${action}" />
     <input type='hidden' name='id_form' value="${idForm}" />
     <input type='hidden' name='id_comment' <#if comment??>value="${comment.id!''}"</#if> />
-    <input type='hidden' id=idStartingDate name='startingValidityDate' />
-    <input type='hidden' id=idEndingDate name='endingValidityDate' />
+    <input type='hidden' id='${idStartingDate}' name='startingValidityDate' />
+    <input type='hidden' id='${idEndingDate}' name='endingValidityDate' />
 
     <@formGroup labelFor='comment' labelKey='#i18n{appointment.comment.name}'>
         <@input type='textarea' name='comment' id=idComment richtext=true />
