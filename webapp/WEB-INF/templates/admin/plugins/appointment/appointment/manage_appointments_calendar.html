@@ -3,8 +3,6 @@
 
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar.css' />
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar_ow_bo.css' />
-<link rel='stylesheet' href='js/jquery/plugins/ui/css/jquery-ui.min.css'  />
-<script src="js/jquery/jquery.min.js"></script>
 <script src='js/plugins/appointment/fullcalendar.min.js' ></script>
 
 <@row>
@@ -34,7 +32,7 @@
             
                 <fieldset>
                 <legend class="hidden">#i18n{appointment.createField.title}</legend>
-                    <@getCommentForm "comment" "startingValidityDate" "endingValidityDate" "doAddComment" id_form />
+                    <@getCommentForm "comment-form" "startingValidityDate" "endingValidityDate" "doAddComment" id_form />
                 </fieldset>
             </@boxBody>
      </@box>
@@ -47,7 +45,7 @@
             
                 <fieldset>
                 <legend class="hidden">#i18n{appointment.createField.title}</legend>
-                    <@getCommentForm "comment" "modifyStartingValidityDate" "modifyEndingValidityDate" "doModifyComment" id_form />
+                    <@getCommentForm "modify-comment-form" "modifyStartingValidityDate" "modifyEndingValidityDate" "doModifyComment" id_form />
                 </fieldset>
             </@boxBody>
      </@box>
