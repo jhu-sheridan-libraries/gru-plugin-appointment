@@ -43,7 +43,7 @@
 									<@icon style='calendar' />
 								</@inputGroupItem>
 							</@inputGroup>
-							<@setupDatePicker idField='startingDateOfSearch_user' idServerField='startingDateOfSearch' serverDate='${filter.startingDateOfSearch!\'\'}' />
+							<@setupDatePicker idField='startingDateOfSearch_user' idServerField='startingDateOfSearch' serverDate='${date_start_search_str!\'\'}' />
 						</@formGroup>
 						<@formGroup labelFor='startingTimeOfSearch_user' labelKey='#i18n{appointment.labelTo}'>
 							<@inputGroup>
@@ -62,7 +62,7 @@
 									<@icon style='calendar' />
 								</@inputGroupItem>
 							</@inputGroup>
-							<@setupDatePicker idField='endingDateOfSearch_user' idServerField='endingDateOfSearch' serverDate='${filter.endingDateOfSearch!\'\'}' />
+							<@setupDatePicker idField='endingDateOfSearch_user' idServerField='endingDateOfSearch' serverDate='${date_end_search_str!\'\'}' />
 						</@formGroup>
 
 						<@formGroup labelFor='endingTimeOfSearch_user' labelKey='#i18n{appointment.labelTo}'>
