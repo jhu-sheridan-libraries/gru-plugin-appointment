@@ -6,7 +6,7 @@
     <@columns>
         <@appointmentTabs tab="typicalWeek" appointmentform=appointmentform>
 				  <fieldset>
-            <br/>
+            <br>
             <@tform class='form-inline' action='jsp/admin/plugins/appointment/ManageAppointmentSlots.jsp?view=manageTypicalWeek' id='listOfDates' params='enctype="multipart/form-data"'>
                 <input type="hidden" id="id_form" name="id_form" value="${appointmentform.idForm}"/>
                 <#if listDateOfModification??>
@@ -24,7 +24,7 @@
                     <@button type='submit' name='action_confirmRemoveParameter' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' size='' />
                 </#if>
             </@tform>
-            <br/>
+            <br>
 						<@box collapsed=!error_modification??>
 								<#if !error_modification??>
 									<#assign appointmentTypicalWeekAdvancedIcon = 'plus' />
