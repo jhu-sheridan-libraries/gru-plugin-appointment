@@ -84,6 +84,7 @@
             buttonText : {
                 prev : '#i18n{appointment.appointmentApp.previousWeek}',
                 next : '#i18n{appointment.appointmentApp.nextWeek}',
+                today : '#i18n{appointment.appointmentApp.today}',
             },
             theme: true,
             navLinks: true,
@@ -110,7 +111,7 @@
                 right: 'next'
             },
             columnHeaderHtml: function(mom) {
-                return mom.format('dddd') + '<br/>' + mom.format('LL');
+                return mom.format('dddd') + '<br>' + mom.format('LL');
             },
             slotLabelFormat: '${USER_TIME_FORMAT}',
             slotLabelInterval: slotDuration,
