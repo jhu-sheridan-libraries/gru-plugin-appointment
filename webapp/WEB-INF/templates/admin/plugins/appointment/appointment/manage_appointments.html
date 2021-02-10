@@ -20,15 +20,15 @@
 					</@boxHeader>
 					<@boxBody>
 
-						<@formGroup labelFor='lastName' labelKey='${formMessages.fieldLastNameTitle}'>
+						<@formGroup labelFor='lastName' labelKey='#i18n{appointment.manageAppointments.lastName}'>
 							<@input type='text' id='lastName' name='lastName' value='${filter.lastName!}' />
 						</@formGroup>
 						
-						<@formGroup labelFor='firstName' labelKey='${formMessages.fieldFirstNameTitle}'>
+						<@formGroup labelFor='firstName' labelKey='#i18n{appointment.manageAppointments.firstName}'>
 							<@input type='text' id='firstName' name='firstName' value='${filter.firstName!}'/>
 						</@formGroup>
 						
-						<@formGroup labelFor='email' labelKey='${formMessages.fieldEmailTitle}'>
+						<@formGroup labelFor='email' labelKey='#i18n{appointment.manageAppointments.email}'>
 							<@input type='text' id='email' name='email' value='${filter.email!}' />
 						</@formGroup>
 						
@@ -45,7 +45,7 @@
 							</@inputGroup>
 							<@setupDatePicker idField='startingDateOfSearch_user' idServerField='startingDateOfSearch' serverDate='${date_start_search_str!\'\'}' />
 						</@formGroup>
-						<@formGroup labelFor='startingTimeOfSearch_user' labelKey='#i18n{appointment.labelTo}'>
+						<@formGroup labelFor='startingTimeOfSearch_user' labelKey='#i18n{appointment.labelAt}'>
 							<@inputGroup>
 								<@input type='text' name='' class='datetimepicker' id='startingTimeOfSearch_user' />
 								<@inputGroupItem type='addon'>
@@ -65,7 +65,7 @@
 							<@setupDatePicker idField='endingDateOfSearch_user' idServerField='endingDateOfSearch' serverDate='${date_end_search_str!\'\'}' />
 						</@formGroup>
 
-						<@formGroup labelFor='endingTimeOfSearch_user' labelKey='#i18n{appointment.labelTo}'>
+						<@formGroup labelFor='endingTimeOfSearch_user' labelKey='#i18n{appointment.labelAt}'>
 							<@inputGroup>
 								<@input type='text' name='' class='datetimepicker' id='endingTimeOfSearch_user' />
 								<@inputGroupItem type='addon'>
