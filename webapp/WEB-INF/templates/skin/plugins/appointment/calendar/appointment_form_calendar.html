@@ -1,6 +1,6 @@
 <#include "/admin/plugins/appointment/date_commons.html" />
 
-<link rel='stylesheet' href='css/plugins/appointment/fullcalendar.css' />
+<link rel='stylesheet' href='css/plugins/appointment/fullcalendar.min.css' />
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar_ow.css' />
 <script src='js/plugins/appointment/fullcalendar.min.js' ></script>
 <link href="css/plugins/appointment/appointment.css" rel="stylesheet" />
@@ -147,13 +147,12 @@
 		$('#calendar').fullCalendar({
             displayEventEnd: true,
             timeFormat: '${USER_TIME_FORMAT}',
-            themeSystem: 'jquery-ui',
-            themeButtonIcons: {
-                prev: 'chevron-left',
-                next: 'chevron-right',
-                prevYear: 'fast-backward',
-                nextYear: 'fast-forward'
-            },
+		    theme: true,
+            buttonText : {
+                prev : '#i18n{appointment.appointmentApp.previousWeek}',
+                next : '#i18n{appointment.appointmentApp.nextWeek}',
+                today : '#i18n{appointment.appointmentApp.today}',
+            },		    
 			hiddenDays: hiddenDays,
 			defaultDate: defaultDate,
 			defaultView: weekView,

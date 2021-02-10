@@ -1,6 +1,8 @@
 <#include "/admin/plugins/appointment/appointment/manage_appointment_tabs.html" />
-<link rel='stylesheet' href='css/plugins/appointment/fullcalendar.css' />
+
+<link rel='stylesheet' href='css/plugins/appointment/fullcalendar.min.css' /> 
 <link rel='stylesheet' href='css/plugins/appointment/fullcalendar_ow_bo.css' />
+
 <script src='js/plugins/appointment/fullcalendar.min.js' ></script>
 <@row>
     <@columns>
@@ -86,7 +88,6 @@
                 next : '#i18n{appointment.appointmentApp.nextWeek}',
                 today : '#i18n{appointment.appointmentApp.today}',
             },
-            theme: true,
             navLinks: true,
             navLinkDayClick: function(date, jsEvent) {
                 location.href = eventUrl + 'manageAppointments&id_form=' + idForm + '&starting_date_time=' + date.format() + 'T00:00&ending_date_time=' + date.format() + 'T23:59';
